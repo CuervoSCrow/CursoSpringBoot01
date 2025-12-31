@@ -1,4 +1,4 @@
-package com.crowpower.CursoSpringBoot01;
+package com.crowpower.cursospringboot01;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

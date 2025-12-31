@@ -1,4 +1,4 @@
-package com.crowpower.CursoSpringBoot01.Model;
+package com.crowpower.cursospringboot01.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

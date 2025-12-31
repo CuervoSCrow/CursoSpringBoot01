@@ -1,11 +1,8 @@
-package com.crowpower.CursoSpringBoot01.Controller;
+package com.crowpower.cursospringboot01.controller;
 
-import com.crowpower.CursoSpringBoot01.Model.Producto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class SaludoController {

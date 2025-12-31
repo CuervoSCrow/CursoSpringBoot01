@@ -1,4 +1,4 @@
-package com.crowpower.CursoSpringBoot01;
+package com.crowpower.cursospringboot01;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
