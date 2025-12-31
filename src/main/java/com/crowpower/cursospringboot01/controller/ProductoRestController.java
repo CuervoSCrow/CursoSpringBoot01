@@ -5,6 +5,7 @@ import com.crowpower.cursospringboot01.service.ProductoService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +26,13 @@ public class ProductoRestController {
     }
 
      */
-/*
-    public ProductoRestController(ProductoService productoService) {
-        this.productoService = productoService;
-    }
 
- */
+//    public ProductoRestController(@Qualifier("productoServiceImpl2")
+//                                  ProductoService productoService) {
+//        this.productoService = productoService;
+//    }
+
+
 
     @GetMapping(value = "productos/{id}")
     public Producto findById(@PathVariable("id") Integer id) {

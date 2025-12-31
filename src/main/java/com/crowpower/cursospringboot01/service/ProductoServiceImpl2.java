@@ -2,23 +2,19 @@ package com.crowpower.cursospringboot01.service;
 
 
 import com.crowpower.cursospringboot01.model.Producto;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-//@Primary
-@Service("productoServiceImpl1")
+@Service("productoServiceImpl2")
 @ConditionalOnProperty(
         name="implementacion.producto.service",
-        havingValue = "implementacion_01",
-        matchIfMissing = true
+        havingValue = "implementacion_02"
+
 )
-public class ProductoServiceImpl
+public class ProductoServiceImpl2
         implements ProductoService  {
 
 
@@ -64,7 +60,7 @@ public class ProductoServiceImpl
     public String delete(Integer id) {
         Producto productoAEliminar = this.findById(id);
         productos.remove(productoAEliminar);
-        return "Impl_1 : Se ha eliminado el producto con id " +
+        return "Impl_2 : Se ha eliminado el producto con id " +
                 productoAEliminar.getNombre();
     }
 }
