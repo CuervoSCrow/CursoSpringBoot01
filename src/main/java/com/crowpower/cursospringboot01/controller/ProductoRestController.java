@@ -1,10 +1,10 @@
 package com.crowpower.cursospringboot01.controller;
 
 import com.crowpower.cursospringboot01.model.Producto;
-import com.crowpower.cursospringboot01.service.ProductoService;
+import com.crowpower.cursospringboot01.service.ProductoServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +12,8 @@ import java.util.List;
 @RestController
 public class ProductoRestController {
 
-    private ProductoService productoService = new ProductoService();
+    @Autowired
+    private ProductoServiceImpl productoService = new ProductoServiceImpl();
 
 
     @GetMapping(value = "productos/{id}")
