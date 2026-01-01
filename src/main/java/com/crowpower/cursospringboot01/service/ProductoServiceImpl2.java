@@ -3,17 +3,21 @@ package com.crowpower.cursospringboot01.service;
 
 import com.crowpower.cursospringboot01.model.Producto;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("productoServiceImpl2")
-@ConditionalOnProperty(
-        name="implementacion.producto.service",
-        havingValue = "implementacion_02"
-
-)
+//@ConditionalOnProperty(
+//        name="implementacion.producto.service",
+//        havingValue = "implementacion_02"
+//
+//)
+//@Profile("dev")
+@Order(2)
 public class ProductoServiceImpl2
         implements ProductoService  {
 
