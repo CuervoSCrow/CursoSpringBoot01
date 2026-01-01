@@ -17,7 +17,8 @@ import java.util.List;
 public class ProductoRestController {
 
 //    @Autowired
-    private final ProductoService productoService ;
+    private final List<ProductoService> productoService ;
+    private final int pos=2;
 
     /*
     @Autowired
@@ -36,18 +37,18 @@ public class ProductoRestController {
 
     @GetMapping(value = "productos/{id}")
     public Producto findById(@PathVariable("id") Integer id) {
-        return this.productoService.findById(id);
+        return this.productoService.get(pos).findById(id);
     }
 
     @GetMapping(value = "/productos")
     public List<Producto> findAll() {
-        return productoService.findAll();
+        return productoService.get(pos).findAll();
     }
 
     @PostMapping(value = "/productos")
     public Producto create(
             @RequestBody Producto producto) {
-        return this.productoService.create(producto);
+        return this.productoService.get(pos).create(producto);
     }
 
     @PutMapping(value = "/productos/{id}")
@@ -55,12 +56,12 @@ public class ProductoRestController {
             @PathVariable("id") Integer id,
             @RequestBody Producto producto) {
 
-        return productoService.update(id,producto);
+        return productoService.get(pos).update(id,producto);
     }
 
     @DeleteMapping(value = "productos/{id}")
     public String delete(
             @PathVariable("id") Integer id) {
-       return this.productoService.delete(id);
+       return this.productoService.get(0).delete(id);
     }
 }
