@@ -1,6 +1,7 @@
 package com.crowpower.cursospringboot01.service;
 
 import com.crowpower.cursospringboot01.model.Producto;
+import com.crowpower.cursospringboot01.util.exception.InvalidDataException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class ProductoServiceImpl
 
     @Override
     public Producto create(Producto producto) {
+        if(producto.getPrecio()>3000){
+            throw new InvalidDataException("El precio no puede ser mayor a 3000");
+        }
         productos.add(producto);
         return producto;
     }
@@ -41,6 +45,9 @@ public class ProductoServiceImpl
     public Optional<Producto> update(
             Integer id,
             Producto producto) {
+        if(producto.getPrecio()>3000){
+            throw new InvalidDataException("El precio no puede ser mayor a 3000");
+        }
         Optional<Producto> productoAModificar = this.findById(id);
         if(productoAModificar.isEmpty()) {
             return Optional.empty();
