@@ -1,8 +1,8 @@
 package com.crowpower.cursospringboot01.config;
 
 import com.crowpower.cursospringboot01.service.ProductoService;
-import com.crowpower.cursospringboot01.service.ProductoServiceImpl1;
-import com.crowpower.cursospringboot01.service.ProductoServiceImpl2;
+//import com.crowpower.cursospringboot01.service.ProductoServiceImpl1;
+//import com.crowpower.cursospringboot01.service.ProductoServiceImpl2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
