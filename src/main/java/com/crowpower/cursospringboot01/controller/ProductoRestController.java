@@ -3,14 +3,15 @@ package com.crowpower.cursospringboot01.controller;
 import com.crowpower.cursospringboot01.model.Producto;
 import com.crowpower.cursospringboot01.service.ProductoService;
 
+import com.crowpower.cursospringboot01.util.exception.InvalidDataException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,38 +36,58 @@ public class ProductoRestController {
 
     @GetMapping(value = "/productos")
     public ResponseEntity<List<Producto>> findAll() {
-        return ResponseEntity.ok(productoService.findAll());
+        List<Producto> productos = this.productoService.findAll();
+        if(productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(productos);
     }
 
     @PostMapping(value = "/productos")
-    public ResponseEntity<Producto> create(
+    public ResponseEntity<?> create(
             @RequestBody Producto producto) {
-        Producto nuevoProducto = this.productoService.create(producto);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Codigo-Producto",Integer.toString(nuevoProducto.getCodigo()));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .headers(headers)
-                .body(nuevoProducto);
+        try {
+            Producto nuevoProducto = this.productoService.create(producto);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                            .path("/{id}")
+                            .buildAndExpand(nuevoProducto.getCodigo())
+                            .toUri();
+            return ResponseEntity.created(location).body(nuevoProducto);
+        } catch (InvalidDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error inesperado");
+        }
     }
 
     @PutMapping(value = "/productos/{id}")
-    public ResponseEntity<Producto> update(
+    public ResponseEntity<?> update(
             @PathVariable("id") Integer id,
             @RequestBody Producto producto) {
-        Optional<Producto> productoActualizado = this.productoService.update(id,producto);
-        if(productoActualizado.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<Producto> productoActualizado = this.productoService.update(id, producto);
+            if (productoActualizado.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(productoActualizado.get());
+        }catch (InvalidDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error inesperado");
         }
-        return ResponseEntity.ok(productoActualizado.get());
     }
 
     @DeleteMapping(value = "productos/{id}")
     public ResponseEntity<String> delete(
             @PathVariable("id") Integer id) {
-        if(this.productoService.delete(id)) {
-            return ResponseEntity.noContent().build();
+        try {
+            if (this.productoService.delete(id)) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontro el producto con id " + id);
+        }catch(Exception e) {
+            return ResponseEntity.internalServerError().body("Error inesperado");
         }
-       return ResponseEntity.status(HttpStatus.NOT_FOUND)
-               .body("No se encontro el producto con id " + id);
     }
 }
