@@ -1,35 +1,30 @@
 package com.crowpower.cursospringboot01.service;
 
 import com.crowpower.cursospringboot01.model.Producto;
+import com.crowpower.cursospringboot01.repository.ProductoRepository;
 import com.crowpower.cursospringboot01.util.exception.InvalidDataException;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;  
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductoServiceImpl
     implements ProductoService {
 
-    private List<Producto> productos = new ArrayList<>(
-            List.of(
-                    new Producto(1, "Mouse", 25.0),
-                    new Producto(2, "Teclado", 22.0),
-                    new Producto(3, "Monitor", 121.0)
-            )
-    );
+    private final ProductoRepository productoRepository;
+
 
     @Override
     public Optional<Producto> findById(Integer id) {
-        return productos.stream()
-                .filter(producto -> producto.getCodigo().equals(id))
-                .findFirst();
+        return this.productoRepository.findById(id);
     }
 
     @Override
     public List<Producto> findAll() {
-        return productos;
+        return this.productoRepository.findAll();
     }
 
     @Override
@@ -37,8 +32,7 @@ public class ProductoServiceImpl
         if(producto.getPrecio()>3000){
             throw new InvalidDataException("El precio no puede ser mayor a 3000");
         }
-        productos.add(producto);
-        return producto;
+        return this.productoRepository.save(producto);
     }
 
     @Override
@@ -55,7 +49,7 @@ public class ProductoServiceImpl
         productoAModificar.get().setNombre(producto.getNombre());
         productoAModificar.get().setPrecio(producto.getPrecio());
 
-        return productoAModificar;
+        return Optional.of(this.productoRepository.save(productoAModificar.get()));
     }
 
     @Override
@@ -64,7 +58,7 @@ public class ProductoServiceImpl
         if(productoAEliminar.isEmpty()) {
             return false;
         }
-        productos.remove(productoAEliminar.get());
+        this.productoRepository.deleteById(id);
         return true;
     }
 }
