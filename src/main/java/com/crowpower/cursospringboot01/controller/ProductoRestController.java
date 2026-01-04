@@ -29,7 +29,7 @@ public class ProductoRestController {
         Optional<Producto> productoOpt = this.productoService.findById(id);
         if(productoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body("No se encontro el producto con id " + id);
+                                .body("No se ha encontrado el producto con id " + id);
         }
         return ResponseEntity.ok(productoOpt.get());
     }
